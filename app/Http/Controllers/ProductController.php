@@ -16,23 +16,23 @@ class ProductController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        //filter by category
-        if($request->has('category')){
-            $query->whereHas('category', fn($q) => $q->where('name', $request->category));
+        // filter by category ID
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
         }
 
-        //filter by supplier
-        if($request->has('supplier')){
-            $query->whereHas('supplier', fn($q) => $q->where('name', $request->supplier));
+        // filter by supplier ID
+        if ($request->has('supplier')) {
+            $query->where('supplier_id', $request->supplier);
         }
 
-        //filter by price range
-        if($request->min('price')){
-            $query->where('price', '>=', $request->min('price'));
+        // filter by price range
+        if($request->has('min_price')){
+            $query->where('price', '>=', $request->input('min_price'));
         }
-        if($request->max('price')){
-            $query->where('price', '<=', $request->max('price'));
-        }
+        if($request->has('max_price')){
+            $query->where('price', '<=', $request->input('max_price'));
+        }   
 
         return response()->json($query->get());
     }
