@@ -25,6 +25,7 @@ class SupplierController extends Controller
         // Logic to create a new supplier
         $request->validate([
             'name' => 'required|string|max:255',
+            'contact_name' => 'required|string|max:255',
             'contact_email' => 'required|string|email|max:255|unique:suppliers,contact_email',
         ]);
 
@@ -38,6 +39,7 @@ class SupplierController extends Controller
         // Logic to update an existing supplier
         $request->validate([
             'name' => 'sometimes|string|max:255',
+            'contact_name' => 'sometimes|string|max:255',
             'contact_email' => 'sometimes|string|email|max:255|unique:suppliers,contact_email,' . $supplier->id,
         ]);
 
