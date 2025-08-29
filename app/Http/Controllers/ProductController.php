@@ -53,7 +53,7 @@ class ProductController extends Controller
         return response()->json($product, 201); // Return the created product with a 201 status code
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
         // Logic to update an existing product
         $request->validate([
@@ -64,14 +64,15 @@ class ProductController extends Controller
             'supplier_id' => 'sometimes|exists:suppliers,id',
         ]);
 
+        $product = Product::findOrFail($id);
         $product->update($request->all());
 
         return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
     }
 
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        // Logic to delete a product
+        $product = Product::findOrFail($id);
         $product->delete();
         return response()->json(['message' => 'Product deleted successfully'], 200);
     }
